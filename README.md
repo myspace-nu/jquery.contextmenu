@@ -1,5 +1,8 @@
-# jquery.contextMenu
+# jquery.contextmenu
 
 jQuery Context Menu Plugin
 
-### Author: [Cory LaViska](http://abeautifulsite.net/)
+### Author
+  - [Johan Johansson](https://github.com/myspace-nu/)
+  - [Cory LaViska](http://abeautifulsite.net/)
+  

@@ -68,7 +68,7 @@ if(jQuery)( function() {
 							(e.pageY) ? y = e.pageY : y = e.clientY + d.scrollTop;
 							
 							// Show the menu
-							$(document).unbind('click');
+							// $(document).unbind('click');
 							$(menu).css({ top: y, left: x }).fadeIn(o.inSpeed);
 							// Hover events
 							$(menu).find('A').mouseover( function() {
@@ -109,7 +109,7 @@ if(jQuery)( function() {
 							// When items are selected
 							$('#' + o.menu).find('A').unbind('click');
 							$('#' + o.menu).find('LI:not(.disabled) A').click( function() {
-								$(document).unbind('click').unbind('keypress');
+								// $(document).unbind('click').unbind('keypress');
 								$(".contextMenu").hide();
 								// Callback
 								if( callback ) callback( $(this).attr('href').substr(1), $(srcElement), {x: x - offset.left, y: y - offset.top, docX: x, docY: y} );
@@ -119,7 +119,7 @@ if(jQuery)( function() {
 							// Hide bindings
 							setTimeout( function() { // Delay for Mozilla
 								$(document).click( function() {
-									$(document).unbind('click').unbind('keypress');
+									// $(document).unbind('click').unbind('keypress');
 									$(menu).fadeOut(o.outSpeed);
 									return false;
 								});
@@ -129,13 +129,10 @@ if(jQuery)( function() {
 				});
 				
 				// Disable text selection
-				if( $.browser.mozilla ) {
-					$('#' + o.menu).each( function() { $(this).css({ 'MozUserSelect' : 'none' }); });
-				} else if( $.browser.msie ) {
-					$('#' + o.menu).each( function() { $(this).bind('selectstart.disableTextSelect', function() { return false; }); });
-				} else {
-					$('#' + o.menu).each(function() { $(this).bind('mousedown.disableTextSelect', function() { return false; }); });
-				}
+				$('#' + o.menu).bind('selectstart dragstart', function(e) {
+					e.preventDefault();
+					return false;
+				});
 				// Disable browser context menu (requires both selectors to work in IE/Safari + FF/Chrome)
 				$(el).add($('UL.contextMenu')).bind('contextmenu', function() { return false; });
 				
