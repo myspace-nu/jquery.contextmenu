@@ -1,6 +1,6 @@
 {
   "name": "jquery.contextmenu",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "jQuery Context Menu Plugin.",
   "main": "dist/jquery.contextmenu.min.js",
   "scripts": {
