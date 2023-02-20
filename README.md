@@ -2,7 +2,7 @@
 
 jQuery Context Menu Plugin
 
-### Author
-  - [Johan Johansson](https://github.com/myspace-nu/)
-  - [Cory LaViska](http://abeautifulsite.net/)
+### Authors
+  - [Cory LaViska](http://abeautifulsite.net/), Original Author
+  - [Johan Johansson](https://github.com/myspace-nu/), Maintainer
   
