@@ -83,7 +83,7 @@
 				
 				// Show menu when #myDiv is clicked
 				$("#myDiv").contextMenu({
-					menu: 'myMenu'
+					menu: 'myMenu2'
 				},
 					function(action, el, pos) {
 					alert(
@@ -123,6 +123,7 @@
 				// Disable cut/copy
 				$("#disableItems").click( function() {
 					$('#myMenu').disableContextMenuItems('#cut,#copy');
+					$('#myMenu2').disableContextMenuItems('#cut,#copy');
 					$(this).attr('disabled', true);
 					$("#enableItems").attr('disabled', false);
 				});
@@ -130,6 +131,7 @@
 				// Enable cut/copy
 				$("#enableItems").click( function() {
 					$('#myMenu').enableContextMenuItems('#cut,#copy');
+					$('#myMenu2').enableContextMenuItems('#cut,#copy');
 					$(this).attr('disabled', true);
 					$("#disableItems").attr('disabled', false);
 				});				
@@ -148,10 +150,6 @@
 		
 		<p>
 			<strong>Tip:</strong> Try using your keyboard to make a selection.
-		</p>
-		
-		<p>
-			<a href="http://abeautifulsite.net/2008/09/jquery-context-menu-plugin/">Back to the project page</a>
 		</p>
 		
 		<h2>Demo</h2>
@@ -192,5 +190,13 @@
 			<li class="quit separator"><a href="#quit">Quit</a></li>
 		</ul>
 		
+		<ul id="myMenu2" class="contextMenu">
+			<li class="copy"><a href="#copy">Copy</a></li>
+			<li class="paste"><a href="#paste">Paste</a></li>
+			<li class="delete"><a href="#delete">Delete</a></li>
+			<li class="quit separator"><a href="#quit">Quit</a></li>
+		</ul>
+
+
 	</body>
 </html>

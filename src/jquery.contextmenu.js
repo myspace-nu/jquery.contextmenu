@@ -1,16 +1,9 @@
 // jQuery Context Menu Plugin
 //
-// Version 1.01
+// Cory S.N. LaViska - http://abeautifulsite.net/
+// Johan Johansson - https://github.com/myspace-nu/
 //
-// Cory S.N. LaViska
-// A Beautiful Site (http://abeautifulsite.net/)
-//
-// More info: http://abeautifulsite.net/2008/09/jquery-context-menu-plugin/
-//
-// Terms of Use
-//
-// This plugin is dual-licensed under the GNU General Public License
-//   and the MIT License and is copyright A Beautiful Site, LLC.
+// This plugin is licensed under the MIT License
 //
 if(jQuery)( function() {
 	$.extend($.fn, {
@@ -30,13 +23,13 @@ if(jQuery)( function() {
 				// Add contextMenu class
 				$('#' + o.menu).addClass('contextMenu');
 				// Simulate a true right click
-				$(this).mousedown( function(e) {
+				$(this).on("mousedown", function(e) {
 					var evt = e;
 					evt.stopPropagation();
-					$(this).mouseup( function(e) {
+					$(this).on("mouseup", function(e) {
 						e.stopPropagation();
 						var srcElement = $(this);
-						$(this).unbind('mouseup');
+						$(this).off('mouseup');
 						if( evt.button == 2 ) {
 							// Hide context menus that may be showing
 							$(".contextMenu").hide();
@@ -68,75 +61,79 @@ if(jQuery)( function() {
 							(e.pageY) ? y = e.pageY : y = e.clientY + d.scrollTop;
 							
 							// Show the menu
-							// $(document).unbind('click');
 							$(menu).css({ top: Math.min(y,window.innerHeight-menu.height()), left: Math.min(x,window.innerWidth-menu.width()) }).fadeIn(o.inSpeed);
-							// Hover events
-							$(menu).find('A').mouseover( function() {
-								$(menu).find('LI.hover').removeClass('hover');
-								$(this).parent().addClass('hover');
-							}).mouseout( function() {
-								$(menu).find('LI.hover').removeClass('hover');
-							});
-							
-							// Keyboard
-							$(document).keypress( function(e) {
-								switch( e.keyCode ) {
-									case 38: // up
-										if( $(menu).find('LI.hover').size() == 0 ) {
-											$(menu).find('LI:last').addClass('hover');
-										} else {
-											$(menu).find('LI.hover').removeClass('hover').prevAll('LI:not(.disabled)').eq(0).addClass('hover');
-											if( $(menu).find('LI.hover').size() == 0 ) $(menu).find('LI:last').addClass('hover');
-										}
-									break;
-									case 40: // down
-										if( $(menu).find('LI.hover').size() == 0 ) {
-											$(menu).find('LI:first').addClass('hover');
-										} else {
-											$(menu).find('LI.hover').removeClass('hover').nextAll('LI:not(.disabled)').eq(0).addClass('hover');
-											if( $(menu).find('LI.hover').size() == 0 ) $(menu).find('LI:first').addClass('hover');
-										}
-									break;
-									case 13: // enter
-										$(menu).find('LI.hover A').trigger('click');
-									break;
-									case 27: // esc
-										$(document).trigger('click');
-									break
-								}
-							});
 							
 							// When items are selected
-							$('#' + o.menu).find('A').unbind('click');
-							$('#' + o.menu).find('LI:not(.disabled) A').click( function() {
-								// $(document).unbind('click').unbind('keypress');
+							$('#' + o.menu).find('A').off('click');
+							$('#' + o.menu).find('LI:not(.disabled) A').on("click", function() {
 								$(".contextMenu").hide();
 								// Callback
 								if( callback ) callback( $(this).attr('href').substr(1), $(srcElement), {x: x - offset.left, y: y - offset.top, docX: x, docY: y} );
 								return false;
 							});
-							
-							// Hide bindings
-							setTimeout( function() { // Delay for Mozilla
-								$(document).click( function() {
-									// $(document).unbind('click').unbind('keypress');
-									$(menu).fadeOut(o.outSpeed);
-									return false;
-								});
-							}, 0);
 						}
 					});
 				});
+
+				// Hover events
+				$('#' + o.menu).find('A').on("mouseover", function() {
+					$('#' + o.menu).find('LI.hover').removeClass('hover');
+					$(this).parent().addClass('hover');
+				});
+				$('#' + o.menu).find('A').on("mouseout", function() {
+					$('#' + o.menu).find('LI.hover').removeClass('hover');
+				});
 				
 				// Disable text selection
-				$('#' + o.menu).bind('selectstart dragstart', function(e) {
+				$('#' + o.menu).on('selectstart dragstart', function(e) {
 					e.preventDefault();
 					return false;
 				});
+
 				// Disable browser context menu (requires both selectors to work in IE/Safari + FF/Chrome)
-				$(el).add($('UL.contextMenu')).bind('contextmenu', function() { return false; });
+				$(el).add($('UL.contextMenu')).on('contextmenu', function() { return false; });
 				
 			});
+
+			// Keyboard
+			$(document).on("keyup", function(e) {
+				if($('#' + o.menu).is(":hidden")){
+					return false;
+				}
+				switch( e.keyCode ) {
+					case 38: // up
+						if( $('#' + o.menu).find('LI.hover').size() == 0 ) {
+							$('#' + o.menu).find('LI:last').addClass('hover');
+						} else {
+							$('#' + o.menu).find('LI.hover').removeClass('hover').prevAll('LI:not(.disabled)').eq(0).addClass('hover');
+							if( $('#' + o.menu).find('LI.hover').size() == 0 ) $('#' + o.menu).find('LI:last').addClass('hover');
+						}
+					break;
+					case 40: // down
+						if( $('#' + o.menu).find('LI.hover').size() == 0 ) {
+							$('#' + o.menu).find('LI:first').addClass('hover');
+						} else {
+							$('#' + o.menu).find('LI.hover').removeClass('hover').nextAll('LI:not(.disabled)').eq(0).addClass('hover');
+							if( $('#' + o.menu).find('LI.hover').size() == 0 ) $('#' + o.menu).find('LI:first').addClass('hover');
+						}
+					break;
+					case 13: // enter
+						$('#' + o.menu).find('LI.hover A').trigger('click');
+					break;
+					case 27: // esc
+						$(document).trigger('click');
+					break
+				}
+			});
+
+			// Hide bindings
+			setTimeout( function() { // Delay for Mozilla
+				$(document).on("click", function() {
+					$('#' + o.menu).fadeOut(o.outSpeed);
+					return false;
+				});
+			}, 0);
+			
 			return $(this);
 		},
 		
@@ -199,7 +196,8 @@ if(jQuery)( function() {
 			// Destroy specified context menus
 			$(this).each( function() {
 				// Disable action
-				$(this).unbind('mousedown').unbind('mouseup');
+				$(this).off('mousedown')
+				$(this).off('mouseup');
 			});
 			return( $(this) );
 		}
