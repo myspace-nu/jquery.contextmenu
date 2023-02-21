@@ -100,27 +100,27 @@ if(jQuery)( function() {
 				if($('#' + o.menu).is(":hidden")){
 					return false;
 				}
-				switch( e.keyCode ) {
-					case 38: // up
-						if( $('#' + o.menu).find('LI.hover').size() == 0 ) {
+				switch( e.key ) {
+					case "ArrowUp":
+						if( $('#' + o.menu).find('LI.hover').length == 0 ) {
 							$('#' + o.menu).find('LI:last').addClass('hover');
 						} else {
 							$('#' + o.menu).find('LI.hover').removeClass('hover').prevAll('LI:not(.disabled)').eq(0).addClass('hover');
-							if( $('#' + o.menu).find('LI.hover').size() == 0 ) $('#' + o.menu).find('LI:last').addClass('hover');
+							if( $('#' + o.menu).find('LI.hover').length == 0 ) $('#' + o.menu).find('LI:last').addClass('hover');
 						}
 					break;
-					case 40: // down
-						if( $('#' + o.menu).find('LI.hover').size() == 0 ) {
+					case "ArrowDown":
+						if( $('#' + o.menu).find('LI.hover').length == 0 ) {
 							$('#' + o.menu).find('LI:first').addClass('hover');
 						} else {
 							$('#' + o.menu).find('LI.hover').removeClass('hover').nextAll('LI:not(.disabled)').eq(0).addClass('hover');
-							if( $('#' + o.menu).find('LI.hover').size() == 0 ) $('#' + o.menu).find('LI:first').addClass('hover');
+							if( $('#' + o.menu).find('LI.hover').length == 0 ) $('#' + o.menu).find('LI:first').addClass('hover');
 						}
 					break;
-					case 13: // enter
+					case "Enter":
 						$('#' + o.menu).find('LI.hover A').trigger('click');
 					break;
-					case 27: // esc
+					case "Escape":
 						$(document).trigger('click');
 					break
 				}
@@ -133,7 +133,7 @@ if(jQuery)( function() {
 					return false;
 				});
 			}, 0);
-			
+
 			return $(this);
 		},
 		
