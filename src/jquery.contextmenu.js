@@ -39,29 +39,14 @@ if(jQuery)( function() {
 							if( $(el).hasClass('disabled') ) return false;
 							
 							// Detect mouse position
-							var d = {}, x, y;
-							if( self.innerHeight ) {
-								d.pageYOffset = self.pageYOffset;
-								d.pageXOffset = self.pageXOffset;
-								d.innerHeight = self.innerHeight;
-								d.innerWidth = self.innerWidth;
-							} else if( document.documentElement &&
-								document.documentElement.clientHeight ) {
-								d.pageYOffset = document.documentElement.scrollTop;
-								d.pageXOffset = document.documentElement.scrollLeft;
-								d.innerHeight = document.documentElement.clientHeight;
-								d.innerWidth = document.documentElement.clientWidth;
-							} else if( document.body ) {
-								d.pageYOffset = document.body.scrollTop;
-								d.pageXOffset = document.body.scrollLeft;
-								d.innerHeight = document.body.clientHeight;
-								d.innerWidth = document.body.clientWidth;
-							}
-							(e.pageX) ? x = e.pageX : x = e.clientX + d.scrollLeft;
-							(e.pageY) ? y = e.pageY : y = e.clientY + d.scrollTop;
+							var x = e.pageX, y = e.pageY;
+							var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+							var clientHeight = document.documentElement.clientHeight || window.innerHeight;
+							var scrollTop = window.scrollY || document.body.scrollTop;
+							var scrollLeft = window.scrollX || document.body.scrollLeft;
 							
 							// Show the menu
-							$(menu).css({ top: Math.min(y,window.innerHeight-menu.height()), left: Math.min(x,window.innerWidth-menu.width()) }).fadeIn(o.inSpeed);
+							$(menu).css({ top: Math.min(y,(clientHeight+scrollTop-2)-menu.height()), left: Math.min(x,(clientWidth+scrollLeft-2)-menu.width()) }).fadeIn(o.inSpeed);
 							
 							// When items are selected
 							$('#' + o.menu).find('A').off('click');
